@@ -3,7 +3,7 @@ implicit none
 
 include "fftw3.f"
 
-integer*8, parameter :: N = 512, M = 1024, nt=20000
+integer*8, parameter :: N = 256, M = 1000, nt=200000
 real ( kind = 8 ), parameter :: pi=3.14159265358979323846d0
 
 real*8 L, dt, x, dx, kx, CFL, dt_new,mass_ratio,temp_ratio,const
@@ -26,7 +26,7 @@ common/comm/ dx,dt,dt_new
 L = 2.0d0 * pi/0.4d0
 dx = L / dfloat(N)
 temp_ratio=1.0d0
-mass_ratio=100.0d0
+mass_ratio=500.0d0
 const=mass_ratio/temp_ratio
 Veth = 1.0d0
 Vemin = - 6.0d0*Veth
@@ -59,7 +59,7 @@ ve = Vemin + dfloat(j-1) * dve
 vi = Vimin + dfloat(j-1) * dvi
   do i = 1,N
   x = dfloat(i-1) * dx
-  fex(i) = 1.0d0+0.01d0*dcos(2.0d0*pi*x/L)
+  fex(i) = 1.0d0+0.001d0*dcos(2.0d0*pi*x/L)
   fix(i) = 1.0d0!+0.01d0*dcos(2.0d0*pi*x/L)
   fev(j) = (1.0d0 / (dsqrt(2.0d0*pi)*veth)) * dexp( -ve*ve / (2.0d0*veth*veth) )
   fiv(j) = (1.0d0 /( dsqrt(2.0d0*pi)*vith))*dexp( -vi*vi/ (2.0d0*vith*vith) )
